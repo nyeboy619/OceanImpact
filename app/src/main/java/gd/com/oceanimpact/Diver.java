@@ -17,7 +17,7 @@ public class Diver {
         h = context.getResources().getDisplayMetrics().heightPixels;
         cx = w/2;
         cy = h/2;
-        diver = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.diver),57,175,null);
+        diver = (Bitmap) Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.diver),57,175, Boolean.parseBoolean(null));
     }
     public void draw(Canvas canvas){
 
