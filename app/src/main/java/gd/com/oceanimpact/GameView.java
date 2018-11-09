@@ -20,6 +20,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     private Paint textPaint;
     int w,h,cx,cy;
     private Background backGround;
+	  private Diver diver;
     int time;
 
     public GameView(Context context){
@@ -32,6 +33,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         // initializations of field variable
         w = getResources().getDisplayMetrics().widthPixels;
         h = getResources().getDisplayMetrics().heightPixels;
+				cx= w/2;
+				cy= h/2;
 
 
 
@@ -51,6 +54,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
          backGround = new Background(context);
+		     diver = new Diver(context);
 
 
 
@@ -82,18 +86,41 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
 
+								if(touchPoint.x>cx&&diver.swimState!=diver.RIGHT&&diver.swimState!=diver.REVRIGHT){
+										diver.swimState=diver.RIGHT;
+										diver.frames=5;
+								}		
+								if(touchPoint.x<cx&&diver.swimState!=diver.LEFT&&diver.swimState!=diver.REVLEFT){
+										diver.swimState=diver.LEFT;
+										diver.frames=10;
+								}
+								
                 break;
             case MotionEvent.ACTION_MOVE:
+								if(touchPoint.x>diver.x){
+										diver.swimState=diver.HOLDRIGHT;
+									
+								}		
+								if(touchPoint.x<diver.x){
+										diver.swimState=diver.HOLDLEFT;
+								
+								}
 
                 break;
             case MotionEvent.ACTION_UP:
 
+								if(touchPoint.x>cx&&(diver.swimState==diver.RIGHT||diver.swimState==diver.HOLDRIGHT)){
+										diver.swimState=diver.REVRIGHT;
+								}
+				
+								if(touchPoint.x<cx&&(diver.swimState==diver.LEFT||diver.swimState==diver.HOLDLEFT)){
+								diver.swimState=diver.REVLEFT;
+								}
+								break;
+								}
+		
 
-                break;
-
-
-
-        }
+       
 
         return true;
     }
@@ -101,6 +128,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
     public void update(){
 
         backGround.update();
+				diver.update();
+				if(touchPoint.x>cx&&diver.swimState==diver.HOLDRIGHT){
+						diver.x+=5;
+				}
+				if(touchPoint.x<cx&&diver.swimState==diver.HOLDLEFT){
+						diver.x-=5;
+				}
 
 
     }
@@ -111,6 +145,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 
         canvas.drawColor(Color.YELLOW);
         backGround.draw(canvas);
+				
+				
+				
+				diver.draw(canvas);
+				
         canvas.drawText(""+getResources().getDisplayMetrics().heightPixels,500,500,textPaint);
 
 

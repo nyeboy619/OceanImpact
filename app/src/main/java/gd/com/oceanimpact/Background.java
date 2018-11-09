@@ -2,6 +2,7 @@ package gd.com.oceanimpact;
 
 import android.content.Context;
 import android.graphics.*;
+import gd.com.oceanimpact.R;
 
 public class Background {
 
@@ -9,7 +10,7 @@ public class Background {
     //variable field declarations
     Context context;
     Bitmap bg;
-    Paint textPaint;
+    
     final int w, h,cx,cy;
     int x,y,time=0;
 
@@ -25,11 +26,8 @@ public class Background {
         h = context.getResources().getDisplayMetrics().heightPixels;
         cx = w/2;
         cy = h/2;
-        bg = (Bitmap) Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.bg),w,h, Boolean.parseBoolean(null));
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextSize(50);
+        bg =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.bg),w,h, Boolean.parseBoolean(null));
+       
 
     }
     public void draw(Canvas canvas){
